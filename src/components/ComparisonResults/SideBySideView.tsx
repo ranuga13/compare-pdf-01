@@ -45,7 +45,7 @@ const SideBySideView: React.FC<SideBySideViewProps> = ({ comparison, pageNumber 
             </div>
           )}
         </div>
-        <div className="border border-gray-300 rounded shadow-sm overflow-hidden bg-white">
+        <div className="border border-gray-300 rounded shadow-sm overflow-hidden">
           <div className="bg-gray-100 py-1 px-3 border-b border-gray-300 text-sm font-medium text-gray-700">
             New Document (with highlights)
           </div>

@@ -26,21 +26,34 @@ const VisualComparison: React.FC = () => {
   }>>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
+  // Export the overlay images so they can be used by the export service
+  useEffect(() => {
+    if (overlayImages.length > 0) {
+      // Store overlay images in a way that can be accessed by export service
+      // For now, we'll store them in sessionStorage as a simple solution
+      sessionStorage.setItem('overlayImages', JSON.stringify(overlayImages));
+    }
+  }, [overlayImages]);
+
   useEffect(() => {
     const generateComparisons = async () => {
       if (!originalDocument || !newDocument) return;
       
       setLoading(true);
       try {
-        // For demonstration, we'll generate on first render
-        // In a real app, this would be more sophisticated and possibly on-demand
+        // Generate comparisons for all pages
         const result = await generateVisualComparison(
           originalDocument.images,
           newDocument.images
         );
         
         setOverlayImages(result.overlayImages);
-        setSideBySideImages(result.sideBySideImages);
+        setSideBySideImages(result.sideBySideImages.map((comparison, index) => ({
+          original: comparison.original,
+          new: comparison.new,
+          // Use the same overlay image for the diff view
+          diff: result.overlayImages[index] || comparison.new
+        })));
       } catch (error) {
         setError(`Failed to generate visual comparison: ${error instanceof Error ? error.message : 'Unknown error'}`);
       } finally {
@@ -98,7 +111,7 @@ const VisualComparison: React.FC = () => {
           >
             <ChevronLeft size={16} />
           </Button>
-          <span className="text-sm font-medium">
+          <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
             Page {currentPage} of {totalPages || 1}
           </span>
           <Button
@@ -119,7 +132,7 @@ const VisualComparison: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div className="bg-gray-100 border border-gray-200 rounded-lg p-4">
+        <div className="bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 transition-colors duration-300">
           {visualComparisonType === 'magenta-overlay' && (
             <MagentaOverlay 
               originalImage={originalDocument.images[currentPage - 1] || ''}
@@ -134,7 +147,7 @@ const VisualComparison: React.FC = () => {
               comparison={sideBySideImages[currentPage - 1] || {
                 original: originalDocument.images[currentPage - 1] || '',
                 new: newDocument.images[currentPage - 1] || '',
-                diff: ''
+                diff: overlayImages[currentPage - 1] || ''
               }}
               pageNumber={currentPage}
             />

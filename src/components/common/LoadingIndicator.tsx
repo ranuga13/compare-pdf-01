@@ -19,8 +19,8 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
       </div>
       
       <div className="mt-6 text-center">
-        <p className="text-lg font-medium text-gray-800">{message}</p>
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="text-lg font-medium text-gray-800 dark:text-gray-200">{message}</p>
+        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
           This may take a moment depending on document size
         </p>
       </div>

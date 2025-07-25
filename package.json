@@ -12,6 +12,8 @@
   "dependencies": {
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.1",
     "lucide-react": "^0.303.0",
     "openai": "^4.28.0",
     "pdfjs-dist": "^4.2.0",

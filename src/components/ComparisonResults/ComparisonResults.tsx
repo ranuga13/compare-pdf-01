@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useComparison } from '../../contexts/ComparisonContext';
 import TextComparison from './TextComparison';
 import VisualComparison from './VisualComparison';
+import ExportOptionsModal from './ExportOptions';
 import Button from '../common/Button';
 import { compareTexts } from '../../services/comparisonService';
 import { Layers, FileText, RefreshCw } from 'lucide-react';
@@ -55,25 +56,28 @@ const ComparisonResults: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-blue-900">Comparison Results</h2>
-        <Button 
-          onClick={handleReset} 
-          variant="outline"
-          className="flex items-center space-x-1"
-        >
-          <RefreshCw size={16} />
-          <span>New Comparison</span>
-        </Button>
+      <div className="flex justify-between items-center flex-wrap gap-4">
+        <h2 className="text-2xl font-bold text-blue-900 dark:text-blue-100">Comparison Results</h2>
+        <div className="flex items-center space-x-3">
+          <ExportOptionsModal />
+          <Button 
+            onClick={handleReset} 
+            variant="outline"
+            className="flex items-center space-x-1"
+          >
+            <RefreshCw size={16} />
+            <span>New Comparison</span>
+          </Button>
+        </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <div className="flex border-b">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-colors duration-300">
+        <div className="flex border-b dark:border-gray-700">
           <button
             className={`px-4 py-3 font-medium text-sm flex items-center space-x-2 flex-1 justify-center
               ${activeTab === 'text' 
-                ? 'text-blue-800 border-b-2 border-blue-600 bg-blue-50' 
-                : 'text-gray-600 hover:bg-gray-50'}`}
+                ? 'text-blue-800 dark:text-blue-200 border-b-2 border-blue-600 bg-blue-50 dark:bg-blue-900/20' 
+                : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}`}
             onClick={() => setActiveTab('text')}
           >
             <FileText size={18} />
@@ -82,8 +86,8 @@ const ComparisonResults: React.FC = () => {
           <button
             className={`px-4 py-3 font-medium text-sm flex items-center space-x-2 flex-1 justify-center
               ${activeTab === 'visual' 
-                ? 'text-blue-800 border-b-2 border-blue-600 bg-blue-50' 
-                : 'text-gray-600 hover:bg-gray-50'}`}
+                ? 'text-blue-800 dark:text-blue-200 border-b-2 border-blue-600 bg-blue-50 dark:bg-blue-900/20' 
+                : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}`}
             onClick={() => setActiveTab('visual')}
           >
             <Layers size={18} />
